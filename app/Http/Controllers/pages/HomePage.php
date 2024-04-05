@@ -6,6 +6,7 @@ use App\Models\Country;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Question;
+use App\Models\QuestionImage;
 use App\Models\QuestionOption;
 use App\Models\Topic;
 
@@ -25,28 +26,42 @@ class HomePage extends Controller
 
   public function questionStore(Request $request)
   {
-      //create a new question
-      $question = Question::create(
-          [
-              'topic_id' => $request->topic_id,
-              'question' => $request->question,
-              'marks' => 1,
-              'right_id' => 1,
-          ]
+    foreach ($request->questions as $index => $question) {
+      $newQuestion = Question::create(
+        [
+          'topic_id' => $request->topic_id,
+          'question' => $question['question'],
+          'marks' => $question['mark'],
+        ]
       );
 
-      //run a loop to create options
-      foreach ($request->options as $key => $option) {
-          QuestionOption::create(
-              [
-                  'question_id' => $question->id,
-                  'option' => $option,
-                  // 'is_correct' => $request->is_correct,
-              ]
+      if ($request->hasFile("questions.$index.images")) {
+        foreach ($request->file("questions.$index.images") as $image) {
+          $imageName = time() . '_' . $image->getClientOriginalName();
+          $image->storeAs('images', $imageName);
+          QuestionImage::create(
+            [
+              'question_id' => $newQuestion->id,
+              'image' => $imageName,
+            ]
           );
+        }
       }
 
-      // return redirect
-      return redirect()->route('create-question');
+      foreach ($question['options'] as $key => $option) {
+        $option = QuestionOption::create(
+          [
+            'question_id' => $newQuestion->id,
+            'option' => $option,
+          ]
+        );
+        if ($option->option == $question['selected']) {
+          $newQuestion->right_id = $option->id;
+          $newQuestion->save();
+        }
+      }
+    }
+
+    return redirect()->route('create-question');
   }
 }
