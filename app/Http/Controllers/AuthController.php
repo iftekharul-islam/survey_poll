@@ -9,22 +9,29 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-  public function index()
-  {
-    $pageConfigs = ['myLayout' => 'blank'];
-    return view('content.authentications.auth-login-basic', ['pageConfigs' => $pageConfigs]);
-  }
-
-  public function login(Request $request)
-  {
-    $user = User::where('email', $request->email)->first();
-    if ($user && Hash::check($request->password, $user->password)) {
-      $request->session()->regenerate();
-      return redirect()->route('home');
+  public function login()
+    {
+        return view('content.authentications.auth-login-basic');
     }
 
-    return back()->withErrors([
-      'email' => 'The provided credentials do not match our records.',
-    ])->withInput();
-  }
+    public function loginConfirm(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:6'
+        ]);
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials)) {
+            return redirect()->route('home');
+        }
+        return redirect()->route('login')
+            ->with('error', 'Invalid login credentials')->withInput();
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        return redirect()->route('login');
+    }
 }

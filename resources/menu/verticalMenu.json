@@ -7,10 +7,10 @@
       "slug": "pages-home"
     },
     {
-      "url": "topic",
+      "url": "question",
       "icon": "menu-icon tf-icons ti ti-file",
-      "name": "Topic",
-      "slug": "topic"
+      "name": "Question",
+      "slug": "question"
     },
     {
       "url": "pages/misc-error",

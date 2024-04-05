@@ -21,17 +21,24 @@ use App\Http\Controllers\authentications\RegisterBasic;
 */
 
 // Main Page Route
+// Route::middleware(['auth'])->prefix('admin')->group(function () {
+
 Route::get('/', [HomePage::class, 'index'])->name('home');
-Route::get('/page-2', [Page2::class, 'index'])->name('pages-page-2');
+Route::get('/question', [HomePage::class, 'questionCreate'])->name('create-question');
+Route::post('/question-post', [HomePage::class, 'questionStore'])->name('store-question');
 
-// locale
-Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 
-// pages
-Route::get('/pages/misc-error', [MiscError::class, 'index'])->name('pages-misc-error');
 
-// authentication
-Route::get('/auth/login', [AuthController::class, 'index'])->name('login');
-Route::POST('/auth/login', [AuthController::class, 'login'])->name('loggedin');
+// Route::get('/page-2', [Page2::class, 'index'])->name('pages-page-2');
 
-Route::get('/auth/register-basic', [RegisterBasic::class, 'index'])->name('auth-register-basic');
+// // locale
+// Route::get('lang/{locale}', [LanguageController::class, 'swap']);
+
+// // pages
+// Route::get('/pages/misc-error', [MiscError::class, 'index'])->name('pages-misc-error');
+// });
+
+
+Route::get('login', [AuthController::class, 'login'])->name('login');
+Route::post('login', [AuthController::class, 'loginConfirm'])->name('loginConfirm');
+Route::get('logout', [AuthController::class, 'logout'])->name('logout');
