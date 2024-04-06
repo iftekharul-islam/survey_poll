@@ -25,4 +25,9 @@ class Question extends Model
   {
     return $this->hasMany(QuestionOption::class);
   }
+
+  public function images()
+  {
+    return $this->hasMany(QuestionImage::class);
+  }
 }

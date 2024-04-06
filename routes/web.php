@@ -24,6 +24,11 @@ use App\Http\Controllers\QuestionController;
 
 // Main Page Route
 Route::get('/', [ClientPageController::class, 'index'])->name('home');
+Route::post('/topic-list', [ClientPageController::class, 'topicList'])->name('client.topics');
+Route::post('/ques-range', [ClientPageController::class, 'quesRange'])->name('client.questions.range');
+Route::post('/exam-info', [ClientPageController::class, 'examInfo'])->name('exam.info');
+Route::get('/exam/{exam_id}', [ClientPageController::class, 'exam'])->name('client.exam');
+Route::post('/exam', [ClientPageController::class, 'examSubmit'])->name('exam.submit');
 
 Route::middleware(['auth'])->group(function () {
   Route::get('/question', [QuestionController::class, 'questionCreate'])->name('create-question');

@@ -7,59 +7,47 @@
 @section('title', 'Home')
 
 @section('content')
-    <h3>
-        Your Basic Information
-    </h3>
-    <div class="row">
-        <form class="form form-vertical" action="{{ route('exam.info') }}" method="POST" id="info_form">
-            @csrf
-            <div class="col-6">
-                <div class="mb-1">
-                    <label class="form-label fw-bold" for="name">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name">
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="mb-1">
-                    <label class="form-label fw-bold" for="email">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="mb-1">
-                    <label class="form-label  fw-bold" for="country_select">Country</label>
-                    <div class="col">
-                        <select class="select2 form-select" id="country_select" name="country_id">
-                            @foreach ($countries as $country)
-                                <option value="{{ $country->id }}">{{ $country->name }}</option>
+    <div class="mx-5">
+        <h3>
+            Exam Question
+        </h3>
+        <div class="row">
+            <form class="form form-vertical" action="{{ route('exam.submit') }}" method="POST" id="info_form">
+                @csrf
+
+                @foreach ($exam->questions as $index => $item)
+                    <div class="border rounded mb-1 p-2">
+                        <div class="mb-1">
+                            @if ($item->question->images)
+                                @foreach ($item->question->images as $image)
+                                    <img src="{{ asset('storage/images/' . $image->image) }}" alt="question image"
+                                        class="img-fluid" style="max-height: 200px; max-width: 200px;">
+                                @endforeach
+                            @endif
+                        </div>
+                        <div class="mb-1">
+                            <label class="form-label
+                        fw-bold"
+                                for="name">{{ $index + 1 . '.' . $item->question->question }}</label>
+                            <input type="hidden" class="form-control" id="name"
+                                name="questionlist[{{ $index }}][id]" value="{{ $item->id }}">
+                        </div>
+                        <div class="mb-1">
+                            @foreach ($item->question->options as $option)
+                                <input type="radio" name="questionlist[{{ $index }}][selected]"
+                                    value="{{ $option->id }}">
+                                <label for="option1">{{ $option->option }}</label>
                             @endforeach
-                        </select>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="mb-1">
-                    <label class="form-label fw-bold" for="topic_select">Topic</label>
-                    <select class="select2 form-select" id="topic_select" name="topic_id">
-                        <option value="">Please Select a Country First</option>
-                    </select>
-                </div>
-            </div>
+                @endforeach
 
-            <div class="col-6">
-                <div class="mb-1">
-                    <label class="form-label fw-bold" for="question_count">How Many Questions Do You Want?</label>
-                    <select class="select2 form-select" id="question_count" name="question_count">
-                        <option value="">Please Select a Topic First</option>
-                    </select>
 
+                <div class="col-12 mt-2">
+                    <button type="submit" class="btn btn-success">Submit</button>
                 </div>
-            </div>
-
-            <div class="col-12 mt-2">
-                <button type="submit" class="btn btn-success">Submit</button>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 @endsection
 
