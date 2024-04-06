@@ -96,7 +96,7 @@ class ClientPageController extends Controller
     $exam->final_score = $final_score;
     $exam->save();
 
-    // return view('content.client.exam', ['pageConfigs' => $pageConfigs, 'exam' => $exam]);
+    return redirect()->route('client.result', ['exam_id' => $exam->id]);
   }
 
   public function result($exam_id)

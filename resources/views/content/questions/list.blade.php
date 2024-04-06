@@ -34,8 +34,12 @@
                                     <td>{{ $question->country->name }}</td>
                                     <td>{{ $question->topic->name }}</td>
                                     <td>{{ $question->marks }}</td>
-                                    <td>{{ count($question->options) }} Options <br />
-                                        Answer: {{ $question->answer->option }}
+                                    <td>
+                                        @foreach ($question->options as $index => $option)
+                                            <span class="{{ $option->id == $question->right_id ? 'text-success' : '' }}">
+                                                {{ $index + 1 . '. ' . $option->option }} <br />
+                                            </span>
+                                        @endforeach
                                     </td>
                                     <td>
                                         {{-- <a class="" href="/order/{{ $order->id }}">

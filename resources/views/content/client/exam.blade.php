@@ -7,7 +7,7 @@
 @section('title', 'Home')
 
 @section('content')
-    <div class="mx-5">
+    <div class="container mt-5">
         <h3>
             Exam Question
         </h3>
