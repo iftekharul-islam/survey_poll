@@ -9,12 +9,7 @@ class Topic extends Model
 {
   use HasFactory;
 
-  protected $fillable = ['country_id', 'name', 'description'];
-
-  public function country()
-  {
-    return $this->belongsTo(Country::class);
-  }
+  protected $fillable = ['name', 'description'];
 
   public function questions()
   {

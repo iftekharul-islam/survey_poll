@@ -9,11 +9,16 @@ class Question extends Model
 {
   use HasFactory;
 
-  protected $fillable = ['topic_id', 'question', 'marks', 'right_id'];
+  protected $fillable = ['topic_id', 'country_id', 'question', 'marks', 'right_id'];
 
   public function topic()
   {
     return $this->belongsTo(Topic::class);
+  }
+
+  public function country()
+  {
+    return $this->belongsTo(Country::class);
   }
 
   public function options()

@@ -8,6 +8,7 @@ use App\Http\Controllers\pages\Page2;
 use App\Http\Controllers\pages\MiscError;
 use App\Http\Controllers\authentications\LoginBasic;
 use App\Http\Controllers\authentications\RegisterBasic;
+use App\Http\Controllers\ClientPageController;
 use App\Http\Controllers\QuestionController;
 
 /*
@@ -22,7 +23,7 @@ use App\Http\Controllers\QuestionController;
 */
 
 // Main Page Route
-Route::get('/', [HomePage::class, 'index'])->name('home');
+Route::get('/', [ClientPageController::class, 'index'])->name('home');
 
 Route::middleware(['auth'])->group(function () {
   Route::get('/question', [QuestionController::class, 'questionCreate'])->name('create-question');

@@ -14,7 +14,7 @@
                         enctype="multipart/form-data">
                         @csrf
                         <div class="row">
-                            {{-- <div class="col-6">
+                            <div class="col-6">
                                 <div class="mb-1">
                                     <label class="form-label" for="country_select">Country</label>
                                     <div class="col">
@@ -25,13 +25,13 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div> --}}
+                            </div>
                             <div class="col-6">
                                 <div class="mb-1">
                                     <label class="form-label" for="topic_select">Topic</label>
                                     <select class="select2 form-select" id="topic_select" name="topic_id">
                                         @foreach ($topics as $topic)
-                                            <option value="{{ $topic['value'] }}">{{ $topic['label'] }}</option>
+                                            <option value="{{ $topic->id }}">{{ $topic->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

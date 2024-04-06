@@ -16,20 +16,14 @@ class QuestionController extends Controller
 {
   public function index()
   {
-    return view('content.pages.pages-home');
   }
 
   public function questionCreate()
   {
-    $topics = Topic::with('country')->get();
-    $topics = $topics->map(function ($topic) {
-      return [
-        'value' => $topic->id,
-        'label' => $topic->country->name . " - " . $topic->name,
-      ];
-    });
+    $countries = Country::all();
+    $topics = Topic::all();
 
-    return view('content.questions.pages-question-create', compact('topics'));
+    return view('content.questions.pages-question-create', compact('countries', 'topics'));
   }
 
   public function questionStore(Request $request)
@@ -40,6 +34,7 @@ class QuestionController extends Controller
         $newQuestion = Question::create(
           [
             'topic_id' => $request->topic_id,
+            'country_id' => $request->country_id,
             'question' => $question['question'],
             'marks' => $question['mark'],
           ]

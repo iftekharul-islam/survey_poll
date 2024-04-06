@@ -11,8 +11,8 @@ class Country extends Model
 
   protected $fillable = ['name', 'code'];
 
-  public function topics()
+  public function questions()
   {
-    return $this->hasMany(Topic::class);
+    return $this->hasMany(Question::class);
   }
 }
