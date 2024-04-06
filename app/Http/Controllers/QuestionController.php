@@ -16,6 +16,9 @@ class QuestionController extends Controller
 {
   public function index()
   {
+    $questions = Question::with('topic', 'country');
+    $questions = $questions->paginate('10');
+    return view('content.questions.list', compact('questions'));
   }
 
   public function questionCreate()

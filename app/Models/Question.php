@@ -30,4 +30,9 @@ class Question extends Model
   {
     return $this->hasMany(QuestionImage::class);
   }
+
+  public function answer()
+  {
+    return $this->hasOne(QuestionOption::class, 'id', 'right_id');
+  }
 }

@@ -29,9 +29,12 @@ Route::post('/ques-range', [ClientPageController::class, 'quesRange'])->name('cl
 Route::post('/exam-info', [ClientPageController::class, 'examInfo'])->name('exam.info');
 Route::get('/exam/{exam_id}', [ClientPageController::class, 'exam'])->name('client.exam');
 Route::post('/exam', [ClientPageController::class, 'examSubmit'])->name('exam.submit');
+Route::get('/result/{exam_id}', [ClientPageController::class, 'result'])->name('client.result');
+
 
 Route::middleware(['auth'])->group(function () {
-  Route::get('/question', [QuestionController::class, 'questionCreate'])->name('create-question');
+  Route::get('/question', [QuestionController::class, 'index'])->name('question');
+  Route::get('/question-add', [QuestionController::class, 'questionCreate'])->name('create-question');
   Route::post('/question-post', [QuestionController::class, 'questionStore'])->name('store-question');
 });
 

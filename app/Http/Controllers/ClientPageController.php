@@ -9,6 +9,8 @@ use App\Models\Question;
 use App\Models\Topic;
 use Illuminate\Http\Request;
 
+use function PHPUnit\Framework\isNull;
+
 class ClientPageController extends Controller
 {
   public function index()
@@ -22,7 +24,7 @@ class ClientPageController extends Controller
 
   public function topicList(Request $request)
   {
-    $country_id = $request->country_id; 
+    $country_id = $request->country_id;
     $topics = Topic::whereHas('questions', function ($query) use ($country_id) {
       $query->where('country_id', $country_id);
     })->get();
@@ -68,6 +70,9 @@ class ClientPageController extends Controller
   {
     $pageConfigs = ['myLayout' => 'blank'];
     $exam = Exam::with('questions.question.options', 'questions.question.images')->find($exam_id);
+    if ($exam->final_score !== null) {
+      return redirect()->route('client.result', ['exam_id' => $exam->id]);
+    }
     return view('content.client.exam', ['pageConfigs' => $pageConfigs, 'exam' => $exam]);
   }
 
@@ -92,5 +97,12 @@ class ClientPageController extends Controller
     $exam->save();
 
     // return view('content.client.exam', ['pageConfigs' => $pageConfigs, 'exam' => $exam]);
+  }
+
+  public function result($exam_id)
+  {
+    $pageConfigs = ['myLayout' => 'blank'];
+    $exam = Exam::with('questions.question.options', 'questions.question.images')->find($exam_id);
+    return view('content.client.result', ['pageConfigs' => $pageConfigs, 'exam' => $exam]);
   }
 }
