@@ -9,17 +9,12 @@
 
   <div class="app-ecommerce">
 
-    <!-- Add Product -->
+    <!-- Add question -->
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
 
       <div class="d-flex flex-column justify-content-center">
         <h4 class="mb-1 mt-3">Add a new Question</h4>
         <p class="text-muted">Question placed across your clients</p>
-      </div>
-      <div class="d-flex align-content-center flex-wrap gap-3">
-        <div class="d-flex gap-3"><button class="btn btn-label-secondary">Discard</button>
-          <button class="btn btn-label-primary">Save draft</button></div>
-        <button type="submit" class="btn btn-primary">Publish product</button>
       </div>
 
     </div>
