@@ -16,10 +16,14 @@ class CountrySeeder extends Seeder
     public function run()
     {
         $countries = [
-            ['name' => 'Bangladesh', 'code' => 'BD'],
-            ['name' => 'United Kingdom', 'code' => 'UK'],
-            ['name' => 'Canada', 'code' => 'CA'],
-            // Add more countries as needed
+          ['name' => 'Bangladesh', 'code' => 'BD'],
+          ['name' => 'United Kingdom', 'code' => 'UK'],
+          ['name' => 'Canada', 'code' => 'CA'],
+          ['name' => 'United States', 'code' => 'US'],
+          ['name' => 'China', 'code' => 'CN'],
+          ['name' => 'India', 'code' => 'IN'],
+          ['name' => 'Brazil', 'code' => 'BR'],
+          ['name' => 'Australia', 'code' => 'AU'],
         ];
 
         foreach ($countries as $country) {

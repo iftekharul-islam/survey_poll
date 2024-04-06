@@ -8,6 +8,7 @@ use App\Http\Controllers\pages\Page2;
 use App\Http\Controllers\pages\MiscError;
 use App\Http\Controllers\authentications\LoginBasic;
 use App\Http\Controllers\authentications\RegisterBasic;
+use App\Http\Controllers\QuestionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,11 +22,12 @@ use App\Http\Controllers\authentications\RegisterBasic;
 */
 
 // Main Page Route
-// Route::middleware(['auth'])->prefix('admin')->group(function () {
-
 Route::get('/', [HomePage::class, 'index'])->name('home');
-Route::get('/question', [HomePage::class, 'questionCreate'])->name('create-question');
-Route::post('/question-post', [HomePage::class, 'questionStore'])->name('store-question');
+
+Route::middleware(['auth'])->group(function () {
+  Route::get('/question', [QuestionController::class, 'questionCreate'])->name('create-question');
+  Route::post('/question-post', [QuestionController::class, 'questionStore'])->name('store-question');
+});
 
 
 
@@ -36,7 +38,6 @@ Route::post('/question-post', [HomePage::class, 'questionStore'])->name('store-q
 
 // // pages
 // Route::get('/pages/misc-error', [MiscError::class, 'index'])->name('pages-misc-error');
-// });
 
 
 Route::get('login', [AuthController::class, 'login'])->name('login');

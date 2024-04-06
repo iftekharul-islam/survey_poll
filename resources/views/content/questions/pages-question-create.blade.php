@@ -14,7 +14,7 @@
                         enctype="multipart/form-data">
                         @csrf
                         <div class="row">
-                            <div class="col-6">
+                            {{-- <div class="col-6">
                                 <div class="mb-1">
                                     <label class="form-label" for="country_select">Country</label>
                                     <div class="col">
@@ -25,13 +25,13 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-6">
                                 <div class="mb-1">
                                     <label class="form-label" for="topic_select">Topic</label>
                                     <select class="select2 form-select" id="topic_select" name="topic_id">
                                         @foreach ($topics as $topic)
-                                            <option value="{{ $topic->id }}">{{ $topic->name }}</option>
+                                            <option value="{{ $topic['value'] }}">{{ $topic['label'] }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -190,8 +190,23 @@
                     return;
                 }
 
-                // submit form
-                this.submit();
+                // submit form by ajax
+                var formData = new FormData(this);
+                $.ajax({
+                    url: $(this).attr("action"),
+                    type: "POST",
+                    data: formData,
+                    success: function(response) {
+                        alert("Question created successfully");
+                        location.reload();
+                    },
+                    error: function(error) {
+                        alert("An error occurred. Please try again");
+                    },
+                    cache: false,
+                    contentType: false,
+                    processData: false
+                });
             });
         });
     </script>
