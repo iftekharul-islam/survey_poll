@@ -77,4 +77,53 @@ class QuestionController extends Controller
       //throw $th;
     }
   }
+
+  public function edit($id)
+  {
+    $question = Question::with('options', 'images')->find($id);
+    return view('content.questions.edit', compact('question'));
+  }
+
+  public function update(Request $request, $id)
+  {
+    $question = Question::find($id);
+    $questionOption = QuestionOption::where('question_id', $question->id)->delete();
+
+    $question->question = $request->question;
+    $question->marks = $request->marks;
+
+    foreach ($request->options as $key => $option) {
+      $questionOption = QuestionOption::create(
+        [
+          'question_id' => $question->id,
+          'option' => $option,
+        ]
+      );
+      if ($request->selected == $option) {
+        $question->right_id = $questionOption->id;
+      }
+    }
+
+    if ($request->hasFile('images')) {
+      foreach ($request->file('images') as $image) {
+        $imageName = time() . '_' . $image->getClientOriginalName();
+        $image->storeAs('images', $imageName);
+        QuestionImage::create(
+          [
+            'question_id' => $question->id,
+            'image' => $imageName,
+          ]
+        );
+      }
+    }
+    $question->save();
+    return redirect()->route('question');
+  }
+
+  public function delete($id)
+  {
+    $question = Question::find($id);
+    $question->delete();
+    return redirect()->route('question');
+  }
 }

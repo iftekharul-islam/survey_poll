@@ -1,6 +1,12 @@
 {
   "menu": [
     {
+      "url": "exam-list",
+      "icon": "menu-icon tf-icons ti ti-book",
+      "name": "Exam",
+      "slug": "exam-list"
+    },
+    {
       "url": "question",
       "icon": "menu-icon tf-icons ti ti-help",
       "name": "Question",

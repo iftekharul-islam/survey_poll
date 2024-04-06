@@ -18,6 +18,7 @@ return new class extends Migration
       $table->string('name');
       $table->string('email');
       $table->string('range');
+      $table->integer('total_score')->nullable();
       $table->integer('final_score')->nullable();
       $table->timestamps();
     });

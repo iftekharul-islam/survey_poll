@@ -49,6 +49,8 @@ class ClientPageController extends Controller
       'range' => $request->question_count,
     ]);
 
+    $marks = 0;
+
 
     for ($i = 0; $i < $request->question_count; $i++) {
       $question = Question::where('country_id', $request
@@ -61,7 +63,12 @@ class ClientPageController extends Controller
         'question_id' => $question->id,
         'right_id' => $question->right_id,
       ]);
+
+      $marks += $question->marks;
     }
+
+    $exam->total_score = $marks;
+    $exam->save();
 
     return redirect()->route('client.exam', ['exam_id' => $exam->id]);
   }

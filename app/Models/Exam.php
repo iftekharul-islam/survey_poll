@@ -9,7 +9,12 @@ class Exam extends Model
 {
   use HasFactory;
 
-  protected $fillable = ['country_id', 'topic_id', 'name', 'email', 'range', 'final_score'];
+  protected $fillable = ['country_id', 'topic_id', 'name', 'email', 'range', 'total_score', 'final_score'];
+
+  public function country()
+  {
+    return $this->belongsTo(Country::class);
+  }
 
   public function topic()
   {

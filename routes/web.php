@@ -9,6 +9,7 @@ use App\Http\Controllers\pages\MiscError;
 use App\Http\Controllers\authentications\LoginBasic;
 use App\Http\Controllers\authentications\RegisterBasic;
 use App\Http\Controllers\ClientPageController;
+use App\Http\Controllers\ExamController;
 use App\Http\Controllers\QuestionController;
 
 /*
@@ -36,6 +37,15 @@ Route::middleware(['auth'])->group(function () {
   Route::get('/question', [QuestionController::class, 'index'])->name('question');
   Route::get('/question-add', [QuestionController::class, 'questionCreate'])->name('create-question');
   Route::post('/question-post', [QuestionController::class, 'questionStore'])->name('store-question');
+
+  Route::get('/edit-question/{id}', [QuestionController::class, 'edit'])->name('edit-question');
+  Route::post('/edit-question/{id}', [QuestionController::class, 'update'])->name('update-question');
+
+  Route::get('/delete-question/{id}', [QuestionController::class, 'delete'])->name('delete-question');
+
+
+  Route::get('/exam-list', [ExamController::class, 'index'])->name('exam');
+  Route::get('/exam-view/{exam_id}', [ExamController::class, 'show'])->name('exam-view');
 });
 
 

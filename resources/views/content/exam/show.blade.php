@@ -1,10 +1,6 @@
-@php
-    $configData = Helper::appClasses();
-@endphp
-
 @extends('layouts/layoutMaster')
 
-@section('title', 'Home')
+@section('title', 'User List')
 
 @section('content')
     <div class="container mt-5">
@@ -62,78 +58,15 @@
 
         </div>
     </div>
+    <!-- Hoverable rows end -->
 @endsection
 
-
+@section('vendor-script')
+    <!-- vendor js files -->
+    <script src="{{ asset(mix('vendors/js/pagination/jquery.bootpag.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/pagination/jquery.twbsPagination.min.js')) }}"></script>
+@endsection
 @section('page-script')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#country_select').on('change', function() {
-                var country_id = $(this).val();
-                $.ajax({
-                    url: "{{ route('client.topics') }}",
-                    type: "POST",
-                    data: {
-                        country_id: country_id,
-                        _token: "{{ csrf_token() }}"
-                    },
-                    success: function(response) {
-                        $html = '<option value="">Please Select a Topic</option>';
-                        response.forEach(element => {
-                            $html += '<option value="' + element.id + '">' + element
-                                .name + '</option>';
-                        });
-                        response?.length > 0 ? $('#topic_select').html($html) : $(
-                            '#topic_select').html(
-                            '<option value="">No Topic Found</option>');
-                    }
-                });
-            });
-
-            $('#topic_select').on('change', function() {
-                var topic_id = $(this).val();
-                var country_id = $('#country_select').val();
-
-                $.ajax({
-                    url: "{{ route('client.questions.range') }}",
-                    type: "POST",
-                    data: {
-                        country_id: country_id,
-                        topic_id: topic_id,
-                        _token: "{{ csrf_token() }}"
-                    },
-                    success: function(response) {
-                        $html = '<option value="">Please Select a Range</option>';
-                        for (let index = 0; index < response; index = index + 10) {
-                            $html += '<option value="' + (response <
-                                    index +
-                                    10 ? response : index + 10) + '">' + '1 - ' + (response <
-                                    index +
-                                    10 ? response : index + 10) +
-                                '</option>';
-                        }
-                        $('#question_count').html($html);
-                    }
-                });
-            });
-            $("#info_form").submit(function(event) {
-                event.preventDefault();
-                // validate the form
-                var name = $('#name').val();
-                var email = $('#email').val();
-                var country_id = $('#country_select').val();
-                var topic_id = $('#topic_select').val();
-                var question_count = $('#question_count').val();
-
-                if (name == '' || email == '' || country_id == '' || topic_id == '' || question_count ==
-                    '') {
-                    alert('Please fill all the fields');
-                    return;
-                }
-
-                this.submit();
-            });
-        })
-    </script>
+    {{-- Page js files --}}
+    <script src="{{ asset(mix('js/scripts/pagination/components-pagination.js')) }}"></script>
 @endsection
