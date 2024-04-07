@@ -6,12 +6,15 @@
     <div class="row" id="table-hover-row">
         <div class="col-12">
             <div class="card">
-                <div class="card-body d-flex justify-content-between">
-
-                    <a href="/question-add"><button type="button" class="btn btn-gradient-primary">Add New
-                            Question</button></a>
-                </div>
-                <div class="table-responsive">
+              <div class="card-body d-flex justify-content-between">
+                <a href="/question-add" class="float-end">
+                  <button type="button" class="btn btn-success">
+                    + Question
+                  </button>
+                </a>
+              </div>
+              @if(count($exams) > 0)
+              <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
                             <tr>
@@ -36,18 +39,6 @@
                                     <td>{{ $exam->country->name }}</td>
                                     <td>{{ $exam->topic->name }}</td>
                                     <td>{{ $exam->final_score ?? '~' }}/{{ $exam->total_score }}</td>
-
-                                    {{-- <td>
-                                        <a class="" href="/exam/{{ $exam->id }}">
-                                            <i data-feather="eye" class="me-50"></i>
-                                        </a>
-                                        <a class="" href="#">
-                                            <i data-feather="edit-2" class="me-50"></i>
-                                        </a>
-                                        <a class="" href="#">
-                                            <i data-feather="trash" class="me-50"></i>
-                                        </a>
-                                    </td> --}}
                                 </tr>
                             @endforeach
                         </tbody>
@@ -74,6 +65,13 @@
                         </nav>
                     </div>
                 </div>
+              @else
+                <div class="card-body">
+                  <div class="alert alert-danger" role="alert">
+                    No Exams found!
+                  </div>
+                </div>
+              @endif
             </div>
         </div>
     </div>

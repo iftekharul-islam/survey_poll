@@ -7,10 +7,13 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body d-flex justify-content-between">
-
-                    <a href="/question-add"><button type="button" class="btn btn-gradient-primary">Add New
-                            Question</button></a>
+                    <a href="/question-add" class="float-end">
+                      <button type="button" class="btn btn-success">
+                        + Question
+                      </button>
+                    </a>
                 </div>
+              @if(count($questions) > 0)
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
@@ -78,6 +81,13 @@
                         </nav>
                     </div>
                 </div>
+              @else
+                <div class="card-body">
+                  <div class="alert alert-danger" role="alert">
+                        No Questions Found
+                    </h4>
+                </div>
+              @endif
             </div>
         </div>
     </div>

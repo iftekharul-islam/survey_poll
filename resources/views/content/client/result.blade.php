@@ -7,12 +7,18 @@
 @section('title', 'Home')
 
 @section('content')
-    <div class="container mt-5">
-        <h3>
-            Exam Result
-            <br />
+  <div class="container mt-5">
+    <div class="row ">
+      <div class="col-6 mx-auto card py-3 px-3">
+        <h2 class="text-center">
+          Exam Result
+        </h2>
+        <div class="col-12 text-center">
+          <a class="btn btn-danger" href="{{ route('home') }}"> Home </a>
+        </div>
+        <h4>
             Total Marks: {{ $exam->final_score }}/{{ $exam->total_score }}
-        </h3>
+        </h4>
         <div class="row">
             @foreach ($exam->questions as $index => $item)
                 <div class="border rounded mb-1 p-2">
@@ -61,7 +67,9 @@
             @endforeach
 
         </div>
+      </div>
     </div>
+  </div>
 @endsection
 
 

@@ -109,7 +109,9 @@ class ClientPageController extends Controller
   public function result($exam_id)
   {
     $pageConfigs = ['myLayout' => 'blank'];
+
     $exam = Exam::with('questions.question.options', 'questions.question.images')->find($exam_id);
+
     return view('content.client.result', ['pageConfigs' => $pageConfigs, 'exam' => $exam]);
   }
 }

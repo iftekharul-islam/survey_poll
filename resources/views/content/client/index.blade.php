@@ -7,64 +7,61 @@
 @section('title', 'Home')
 
 @section('content')
-    <div class="container mt-5">
-        <h3>
-            Your Basic Information
-        </h3>
-        <div class="row">
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-6 mx-auto">
+        <div class="card mb-4">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Your Basic Information for the Quiz</h5>
+          </div>
+          <div class="card-body">
             <form class="form form-vertical" action="{{ route('exam.info') }}" method="POST" id="info_form">
-                @csrf
-                <div class="col-6">
-                    <div class="mb-1">
-                        <label class="form-label fw-bold" for="name">Name</label>
-                        <input type="text" class="form-control" id="name" name="name"
-                            placeholder="Enter your name">
-                    </div>
+              @csrf
+              <div class="mb-3">
+                <label class="form-label" for="basic-icon-default-fullname">Full Name</label>
+                <div class="input-group input-group-merge">
+                  <span id="basic-icon-default-fullname2" class="input-group-text"><i class="ti ti-user"></i></span>
+                  <input type="text" class="form-control" id="basic-icon-default-fullname" placeholder="John Doe" aria-label="John Doe" aria-describedby="basic-icon-default-fullname2" name="name"/>
                 </div>
-                <div class="col-6">
-                    <div class="mb-1">
-                        <label class="form-label fw-bold" for="email">Email</label>
-                        <input type="email" class="form-control" id="email" name="email"
-                            placeholder="Enter your email">
-                    </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="basic-icon-default-email">Email</label>
+                <div class="input-group input-group-merge">
+                  <span class="input-group-text"><i class="ti ti-mail"></i></span>
+                  <input type="text" id="basic-icon-default-email" class="form-control" name="email" placeholder="john.doe" aria-label="john.doe" aria-describedby="basic-icon-default-email2" />
+                  <span id="basic-icon-default-email2" class="input-group-text">@example.com</span>
                 </div>
-                <div class="col-6">
-                    <div class="mb-1">
-                        <label class="form-label  fw-bold" for="country_select">Country</label>
-                        <div class="col">
-                            <select class="select2 form-select" id="country_select" name="country_id">
-                                @foreach ($countries as $country)
-                                    <option value="{{ $country->id }}">{{ $country->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
+                <div class="form-text"> You can use letters, numbers & periods </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="basic-icon-default-phone">Country</label>
+                <div class="input-group input-group-merge">
+                  <select class="select2 form-select" id="country_select" name="country_id">
+                    @foreach ($countries as $country)
+                      <option value="{{ $country->id }}">{{ $country->name }}</option>
+                    @endforeach
+                  </select>
                 </div>
-                <div class="col-6">
-                    <div class="mb-1">
-                        <label class="form-label fw-bold" for="topic_select">Topic</label>
-                        <select class="select2 form-select" id="topic_select" name="topic_id">
-                            <option value="">Please Select a Country First</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="col-6">
-                    <div class="mb-1">
-                        <label class="form-label fw-bold" for="question_count">How Many Questions Do You Want?</label>
-                        <select class="select2 form-select" id="question_count" name="question_count">
-                            <option value="">Please Select a Topic First</option>
-                        </select>
-
-                    </div>
-                </div>
-
-                <div class="col-12 mt-2">
-                    <button type="submit" class="btn btn-success">Submit</button>
-                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-bold" for="topic_select">Topic</label>
+                <select class="select2 form-select" id="topic_select" name="topic_id">
+                  <option value="">Please Select a Country First</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-bold" for="question_count">How Many Questions Do You Want?</label>
+                <select class="select2 form-select" id="question_count" name="question_count">
+                  <option value="">Please Select a Topic First</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary">Confirm</button>
             </form>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 @endsection
 
 

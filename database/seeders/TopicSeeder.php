@@ -14,8 +14,10 @@ class TopicSeeder extends Seeder
   public function run(): void
   {
     $topics = [
-      ['name' => 'Topic 1', 'description' => 'Description of Topic 1'],
-      ['name' => 'Topic 2', 'description' => 'Description of Topic 2'],
+      ['name' => 'History', 'description' => 'Description of History'],
+      ['name' => 'National Culture', 'description' => 'Description of National Culture'],
+      ['name' => 'Geo-graphical', 'description' => 'Description of Geo-graphical'],
+      ['name' => 'Sports', 'description' => 'Description of Sports'],
       // Add more topics as needed
     ];
 

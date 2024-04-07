@@ -71,10 +71,11 @@ class QuestionController extends Controller
       }
 
       DB::commit();
+      return redirect()->route('question')->with('success', 'Question added successfully');
 
-      return redirect()->route('create-question');
     } catch (\Throwable $th) {
       //throw $th;
+      dd($th->getMessage());
     }
   }
 

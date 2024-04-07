@@ -7,11 +7,9 @@
 @section('title', 'Home')
 
 @section('content')
-    <div class="container mt-5">
-        <h3>
-            Exam Question
-        </h3>
-        <div class="row">
+  <div class="container mt-5">
+    <div class="row ">
+      <div class="col-6 mx-auto card py-3 px-3">
             <form class="form form-vertical" action="{{ route('exam.submit') }}" method="POST" id="info_form">
                 @csrf
 
@@ -47,8 +45,9 @@
                     <button type="submit" class="btn btn-success">Submit</button>
                 </div>
             </form>
-        </div>
+      </div>
     </div>
+  </div>
 @endsection
 
 

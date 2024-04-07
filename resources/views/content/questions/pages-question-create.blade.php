@@ -209,7 +209,7 @@
                     data: formData,
                     success: function(response) {
                         alert("Question created successfully");
-                        location.reload();
+                        window.location.href = "/question";
                     },
                     error: function(error) {
                         alert("An error occurred. Please try again");
