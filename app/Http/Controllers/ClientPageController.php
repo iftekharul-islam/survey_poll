@@ -17,7 +17,7 @@ class ClientPageController extends Controller
   {
     $pageConfigs = ['myLayout' => 'blank'];
 
-    $countries = Country::all();
+    $countries = Country::where('id', '!=', 1)->get();
     $topics = Country::all();
     return view('content.client.index', ['pageConfigs' => $pageConfigs, 'countries' => $countries, 'topics' => $topics]);
   }
@@ -35,39 +35,81 @@ class ClientPageController extends Controller
   {
     $country_id = $request->country_id;
     $topic_id = $request->topic_id;
-    $questions = Question::where('country_id', $country_id)->where('topic_id', $topic_id)->count();
+    $questions = Question::where('country_id', $country_id)->where('group_id', $topic_id)->count();
     return response()->json($questions);
   }
 
   public function examInfo(Request $request)
   {
+
+    $groups = config('survey.groups');
+
+    $groupQuestions = collect();
+
+    $fixedCountry = Country::find(1); // Germany default for take shuffle
+    $questions = Question::where('country_id', $fixedCountry->id)
+      ->where('is_associated', 1)
+      ->take(30)
+      ->get();
+    ;
+    $remainingQuestions = 30  - count($questions);
+
+
+    if($remainingQuestions) {
+      $groupQuestions = $groupQuestions->concat($questions);
+      $questions = Question::where('country_id', $fixedCountry->id)
+        ->where('is_associated', 0)
+        ->inRandomOrder()
+        ->take($remainingQuestions)
+        ->get();
+    }
+
+    $groupQuestions = $groupQuestions->concat($questions);
+    foreach($groups as $key => $group) {
+      $questions = Question::where('group_id', $group['id'])
+        ->where('country_id', $request->country_id)
+        ->where('is_associated', 1)
+        ->take($group['no_of_questions'])
+        ->get();
+
+      $questionCollected = count($questions);
+      $remainingQuestions = $group['no_of_questions'] - $questionCollected;
+      if($remainingQuestions) {
+        $groupQuestions = $groupQuestions->concat($questions);
+        $questions = Question::where('group_id', $group['id'])
+          ->where('country_id', $request->country_id)
+          ->where('is_associated', 0)
+          ->inRandomOrder()
+          ->take($remainingQuestions)
+          ->get();
+      }
+
+
+      $groupQuestions = $groupQuestions->concat($questions);
+    }
+
+    if(!count($groupQuestions)) {
+      return redirect()->route('home')->with('error', 'Not enough questions for the selected country');
+    }
+
     $exam = Exam::create([
       'country_id' => $request->country_id,
-      'topic_id' => $request->topic_id,
       'name' => $request->name,
       'email' => $request->email,
-      'range' => $request->question_count,
     ]);
 
-    $marks = 0;
-
-
-    for ($i = 0; $i < $request->question_count; $i++) {
-      $question = Question::where('country_id', $request
-        ->country_id)->where('topic_id', $request->topic_id)->whereNotIn('id', function ($query) use ($exam) {
-        $query->select('question_id')->from('exam_questions')->where('exam_id', $exam->id);
-      })->inRandomOrder()->first();
-
+    $points = 0;
+    foreach ($groupQuestions as $question) {
       ExamQuestion::create([
         'exam_id' => $exam->id,
         'question_id' => $question->id,
         'right_id' => $question->right_id,
       ]);
 
-      $marks += $question->marks;
+      $points += $question->points;
     }
 
-    $exam->total_score = $marks;
+    $exam->total_score = $points;
     $exam->save();
 
     return redirect()->route('client.exam', ['exam_id' => $exam->id]);
@@ -77,9 +119,12 @@ class ClientPageController extends Controller
   {
     $pageConfigs = ['myLayout' => 'blank'];
     $exam = Exam::with('questions.question.options', 'questions.question.images')->find($exam_id);
+
     if ($exam->final_score !== null) {
       return redirect()->route('client.result', ['exam_id' => $exam->id]);
     }
+
+
     return view('content.client.exam', ['pageConfigs' => $pageConfigs, 'exam' => $exam]);
   }
 
@@ -93,7 +138,7 @@ class ClientPageController extends Controller
         $examQuestion->answer_id = $question['selected'];
         $examQuestion->save();
         if ($examQuestion->right_id == $question['selected']) {
-          $final_score += $examQuestion->question->marks;
+          $final_score += $examQuestion->question->points;
         }
       }
       if (is_null($exam)) {
@@ -113,5 +158,27 @@ class ClientPageController extends Controller
     $exam = Exam::with('questions.question.options', 'questions.question.images')->find($exam_id);
 
     return view('content.client.result', ['pageConfigs' => $pageConfigs, 'exam' => $exam]);
+  }
+
+  /**
+   * @return \Illuminate\Contracts\Foundation\Application
+   * |\Illuminate\Contracts\View\Factory
+   * |\Illuminate\Contracts\View\View
+   * |\Illuminate\Foundation\Application
+   */
+  public function suggestionPaper(Request $request)
+  {
+
+    $pageConfigs = ['myLayout' => 'blank'];
+
+    $countries = Country::all();
+
+    $questions = [];
+    if($request->country_id){
+      $questions = Question::where('country_id', $request->country_id)->with('options')->paginate('10');
+    }
+
+
+    return view('content.client.suggestion', compact('countries', 'questions', 'pageConfigs'));
   }
 }

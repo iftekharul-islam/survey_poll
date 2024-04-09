@@ -40,10 +40,10 @@
                             </div>
                             <div class="col-6">
                                 <div class="mb-1">
-                                    <label class="form-label" for="topic_select">Topic</label>
-                                    <select class="select2 form-select" id="topic_select" name="topic_id">
-                                        @foreach ($topics as $topic)
-                                            <option value="{{ $topic->id }}">{{ $topic->name }}</option>
+                                    <label class="form-label" for="topic_select">Group</label>
+                                    <select class="select2 form-select" id="topic_select" name="group_id">
+                                        @foreach ($groups as $group)
+                                            <option value="{{ $group['id'] }}">{{ $group['name'] }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -93,7 +93,7 @@
                   <input type="text" name="questions[${questionCount}][question]" placeholder="Enter Question" class="form-control">
                   </div>
                   <div class="col-1">
-                  <input type="number" class="form-control option-input" name="questions[${questionCount}][mark]" placeholder="Marks">
+                  <input type="number" class="form-control option-input" name="questions[${questionCount}][points]" min="1" placeholder="Points">
               </div>
               <div class="col-3">
               <input type="text" class="form-control option-input" placeholder="Enter Option">

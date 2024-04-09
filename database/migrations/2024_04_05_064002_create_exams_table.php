@@ -14,10 +14,8 @@ return new class extends Migration
     Schema::create('exams', function (Blueprint $table) {
       $table->id();
       $table->foreignId('country_id')->constrained()->cascadeOnDelete();
-      $table->foreignId('topic_id')->constrained()->cascadeOnDelete();
       $table->string('name');
       $table->string('email');
-      $table->string('range');
       $table->integer('total_score')->nullable();
       $table->integer('final_score')->nullable();
       $table->timestamps();

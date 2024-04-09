@@ -9,8 +9,18 @@ class Question extends Model
 {
   use HasFactory;
 
-  protected $fillable = ['topic_id', 'country_id', 'question', 'marks', 'right_id'];
+  protected $fillable = ['group_id', 'country_id', 'question', 'points', 'right_id'];
 
+
+  //append group column to the field
+  protected $appends = ['group'];
+
+
+  public function getGroupAttribute()
+  {
+    $groups = config('survey.groups');
+    return  collect($groups)->where('id', $this->group_id)->first() ?? null;
+  }
   public function topic()
   {
     return $this->belongsTo(Topic::class);

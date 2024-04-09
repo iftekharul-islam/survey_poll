@@ -9,7 +9,7 @@ class Exam extends Model
 {
   use HasFactory;
 
-  protected $fillable = ['country_id', 'topic_id', 'name', 'email', 'range', 'total_score', 'final_score'];
+  protected $fillable = ['country_id', 'group_id', 'name', 'email', 'range', 'total_score', 'final_score'];
 
   public function country()
   {

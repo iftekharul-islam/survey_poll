@@ -43,11 +43,6 @@
                                         <button type="button" class="add_option btn btn-primary">Add Option</button>
                                     </div>
                                     <div class="col-6 mt-2">
-                                      <label for=""> Fixed Question</label>
-                                      <input class="ml-5" type="checkbox" name="is_associated" value="1" {{ $question->is_associated == 1 ? 'checked' : '' }}>
-
-                                    </div>
-                                    <div class="col-6 mt-2">
                                         <input type="file" name="images" class="form-control" multiple>
                                     </div>
                                     <div class="options_list">

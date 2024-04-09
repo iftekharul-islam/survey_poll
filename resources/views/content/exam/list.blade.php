@@ -6,13 +6,6 @@
     <div class="row" id="table-hover-row">
         <div class="col-12">
             <div class="card">
-              <div class="card-body d-flex justify-content-between">
-                <a href="/question-add" class="float-end">
-                  <button type="button" class="btn btn-success">
-                    + Question
-                  </button>
-                </a>
-              </div>
               @if(count($exams) > 0)
               <div class="table-responsive">
                     <table class="table table-hover">
@@ -21,9 +14,7 @@
                                 <th>ID</th>
                                 <th>Details</th>
                                 <th>Country</th>
-                                <th>Topic</th>
                                 <th>Marks</th>
-                                {{-- <th>Actions</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -37,7 +28,6 @@
                                     </td>
                                     <td>{{ $exam->name }} <br />{{ $exam->email }}</td>
                                     <td>{{ $exam->country->name }}</td>
-                                    <td>{{ $exam->topic->name }}</td>
                                     <td>{{ $exam->final_score ?? '~' }}/{{ $exam->total_score }}</td>
                                 </tr>
                             @endforeach

@@ -25,6 +25,7 @@ use App\Http\Controllers\QuestionController;
 
 // Main Page Route
 Route::get('/', [ClientPageController::class, 'index'])->name('home');
+Route::get('/suggestion-paper', [ClientPageController::class, 'suggestionPaper'])->name('suggest-paper');
 Route::post('/topic-list', [ClientPageController::class, 'topicList'])->name('client.topics');
 Route::post('/ques-range', [ClientPageController::class, 'quesRange'])->name('client.questions.range');
 Route::post('/exam-info', [ClientPageController::class, 'examInfo'])->name('exam.info');
@@ -44,8 +45,12 @@ Route::middleware(['auth'])->group(function () {
   Route::get('/delete-question/{id}', [QuestionController::class, 'delete'])->name('delete-question');
 
 
-  Route::get('/exam-list', [ExamController::class, 'index'])->name('exam');
+  Route::get('/exam-list', [ExamController::class, 'index'])->name('examination');
   Route::get('/exam-view/{exam_id}', [ExamController::class, 'show'])->name('exam-view');
+
+  // fix-group-question
+  Route::get('/fix-group-questions', [QuestionController::class, 'fixGroupQuestion'])->name('fix-group-question');
+  Route::get('/group-questions/{group_id}/{country_id}', [QuestionController::class, 'addQuestionsOnGroup'])->name('group-question');
 });
 
 

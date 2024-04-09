@@ -29,9 +29,9 @@ class HomePage extends Controller
     foreach ($request->questions as $index => $question) {
       $newQuestion = Question::create(
         [
-          'topic_id' => $request->topic_id,
+          'group_id' => $request->group_id,
           'question' => $question['question'],
-          'marks' => $question['mark'],
+          'points' => $question['points'],
         ]
       );
 

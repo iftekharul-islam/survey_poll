@@ -26,7 +26,7 @@
                         <div class="mb-1">
                             <label class="form-label
                         fw-bold"
-                                for="name">{{ $index + 1 . '.' . $item->question->question }}</label>
+                                for="name">{{ $index + 1 . '. ' . $item->question->question }}</label>
                             <input type="hidden" class="form-control" id="name"
                                 name="questionlist[{{ $index }}][id]" value="{{ $item->id }}">
                         </div>
@@ -35,6 +35,7 @@
                                 <input type="radio" name="questionlist[{{ $index }}][selected]"
                                     value="{{ $option->id }}">
                                 <label for="option1">{{ $option->option }}</label>
+                            <br>
                             @endforeach
                         </div>
                     </div>

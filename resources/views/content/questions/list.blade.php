@@ -21,8 +21,9 @@
                                 <th>ID</th>
                                 <th>Question</th>
                                 <th>Country</th>
-                                <th>Topic</th>
-                                <th>Marks</th>
+                                <th>Group</th>
+                                <th>Is Fixed</th>
+                                <th>Points</th>
                                 <th>Options</th>
                                 <th>Actions</th>
                             </tr>
@@ -35,14 +36,15 @@
                                     </td>
                                     <td>{{ $question->question }}</td>
                                     <td>{{ $question->country->name }}</td>
-                                    <td>{{ $question->topic->name }}</td>
-                                    <td>{{ $question->marks }}</td>
+                                    <td>{{ $question->group['name'] }}</td>
+                                    <td>{{ $question->is_associated ? 'Yes' : 'No' }}</td>
+                                    <td>{{ $question->points }}</td>
                                     <td>
-                                        @foreach ($question->options as $index => $option)
-                                            <span class="{{ $option->id == $question->right_id ? 'text-success' : '' }}">
-                                                {{ $index + 1 . '. ' . $option->option }} <br />
-                                            </span>
-                                        @endforeach
+                                          @foreach ($question->options as $index => $option)
+                                              <span class="{{ $option->id == $question->right_id ? 'text-success' : '' }}">
+                                                  {{ $index + 1 . '. ' . $option->option }} <br />
+                                              </span>
+                                          @endforeach
                                     </td>
                                     <td>
                                         {{-- <a class="" href="/order/{{ $order->id }}">

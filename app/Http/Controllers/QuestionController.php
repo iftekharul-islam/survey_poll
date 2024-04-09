@@ -9,24 +9,23 @@ use App\Models\Country;
 use App\Models\Question;
 use App\Models\QuestionImage;
 use App\Models\QuestionOption;
-use App\Models\Topic;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class QuestionController extends Controller
 {
   public function index()
   {
-    $questions = Question::with('topic', 'country');
-    $questions = $questions->paginate('10');
+    $questions = Question::with( 'country')->paginate('10');
     return view('content.questions.list', compact('questions'));
   }
 
   public function questionCreate()
   {
     $countries = Country::all();
-    $topics = Topic::all();
+    $groups = config('survey.groups');
 
-    return view('content.questions.pages-question-create', compact('countries', 'topics'));
+    return view('content.questions.pages-question-create', compact('countries', 'groups'));
   }
 
   public function questionStore(Request $request)
@@ -36,10 +35,10 @@ class QuestionController extends Controller
       foreach ($request->questions as $index => $question) {
         $newQuestion = Question::create(
           [
-            'topic_id' => $request->topic_id,
+            'group_id' => $request->group_id,
             'country_id' => $request->country_id,
             'question' => $question['question'],
-            'marks' => $question['mark'],
+            'points' => $question['points'],
           ]
         );
 
@@ -87,11 +86,17 @@ class QuestionController extends Controller
 
   public function update(Request $request, $id)
   {
+
     $question = Question::find($id);
     $questionOption = QuestionOption::where('question_id', $question->id)->delete();
 
     $question->question = $request->question;
-    $question->marks = $request->marks;
+    if(isset($request->is_associated)){
+      $question->is_associated = 1;
+    } else {
+      $question->is_associated = 0;
+    }
+    $question->points = $request->points;
 
     foreach ($request->options as $key => $option) {
       $questionOption = QuestionOption::create(
@@ -118,6 +123,9 @@ class QuestionController extends Controller
       }
     }
     $question->save();
+//    if($request->has('is_associated')){
+//      return Redirect::to('group-questions/'. $question->group_id . '/' . $question->country_id);
+//    }
     return redirect()->route('question');
   }
 
@@ -126,5 +134,20 @@ class QuestionController extends Controller
     $question = Question::find($id);
     $question->delete();
     return redirect()->route('question');
+  }
+
+  public function fixGroupQuestion()
+  {
+    $groups = Question::with('country')->select('group_id', 'country_id', DB::raw('COUNT(*) as question_count'))
+      ->groupBy('group_id', 'country_id')
+      ->get();
+
+    return view('content.groups.list', compact('groups'));
+  }
+
+  public function addQuestionsOnGroup()
+  {
+    $questions = Question::where('group_id', request('group_id'))->where('country_id', request('country_id'))->paginate('10');
+    return view('content.groups.question-list', compact('questions'));
   }
 }

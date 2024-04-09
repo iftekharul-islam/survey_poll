@@ -4,13 +4,19 @@
       "url": "exam-list",
       "icon": "menu-icon tf-icons ti ti-book",
       "name": "Examinations",
-      "slug": "exam-list"
+      "slug": "examination"
     },
     {
       "url": "question",
       "icon": "menu-icon tf-icons ti ti-help",
       "name": "Question",
       "slug": "question"
+    },
+    {
+      "url": "fix-group-questions",
+      "icon": "menu-icon tf-icons ti ti-help",
+      "name": "Group Question Fixer",
+      "slug": "fix-group-question"
     }
   ]
 }
