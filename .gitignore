@@ -9,7 +9,6 @@
 
 # .env
 .env.backup
-.env.production
 .phpunit.result.cache
 
 docker-compose.override.yml
@@ -20,11 +19,10 @@ npm-debug.log
 yarn-error.log
 /.fleet
 /.idea
-/.vscode
 
 !/public/assets
 !/public/assets/*
 /public/css
 /public/js
 .DS_Store
-.env
+config.bat

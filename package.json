@@ -4,8 +4,8 @@
   "private": true,
   "license": "Commercial",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build"
+    "dev": "node init && vite",
+    "build": "node init && vite build"
   },
   "devDependencies": {
     "@babel/core": "7.23.7",
